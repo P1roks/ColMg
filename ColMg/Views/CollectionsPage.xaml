@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:ColMg.ViewModels"
+    x:Class="ColMg.Views.CollectionsPage"
+    Title="CollectionsPage">
+
+    <CollectionView
+        ItemsSource="{Binding Collections}"
+        SelectionMode="None"
+        ItemsLayout="VerticalGrid, 3">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Label Text="{Binding .}" Background="Lime">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding SelectCollectionCommand,
+                                Source={RelativeSource AncestorType={x:Type viewmodels:CollectionsViewModel}}}"
+                            CommandParameter="{Binding .}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </DataTemplate>
+        </CollectionView.ItemTemplate> 
+    </CollectionView>
+
+</ContentPage>
