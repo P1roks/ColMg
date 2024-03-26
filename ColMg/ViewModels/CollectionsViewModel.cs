@@ -10,15 +10,8 @@ namespace ColMg.ViewModels
 {
     public partial class CollectionsViewModel
     {
-        private readonly CollectionRepository repo;
-
-        public List<string> Collections { get => repo.getCollections(); }
+        public List<string> Collections { get => CollectionRepository.getCollections(); }
         
-        public CollectionsViewModel(CollectionRepository repo)
-        {
-            this.repo = repo;
-        }
-
         [RelayCommand]
         private async Task SelectCollection(string collectionName)
         {
@@ -29,9 +22,12 @@ namespace ColMg.ViewModels
         private async Task AddCollection()
         {
             string collectionName = await Shell.Current.DisplayPromptAsync("Add Collection", "Enter new collection name: ");
-            if (!string.IsNullOrWhiteSpace(collectionName) && collectionName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0)
+            if(!string.IsNullOrWhiteSpace(collectionName) &&
+               collectionName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 &&
+               !CollectionRepository.collectionExists(collectionName))
             {
-
+                CollectionRepository.createCollection(collectionName);
+                await SelectCollection(collectionName);
             }
         }
     }

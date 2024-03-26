@@ -58,10 +58,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\AddColumnPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -71,9 +67,13 @@
 	  <MauiXaml Update="Views\CollectionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\EditElementPage.xaml">
+	  <MauiXaml Update="Views\EditIemPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Components\" />
 	</ItemGroup>
 
 </Project>

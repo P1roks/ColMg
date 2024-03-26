@@ -2,12 +2,104 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:ColMg.ViewModels"
+             xmlns:models="clr-namespace:ColMg.Models"
+             xmlns:utils="clr-namespace:ColMg.Utils"
              x:Class="ColMg.Views.CollectionPage"
-             Title="CollectionPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Title="{Binding Name}">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="imageCollectionTemplate">
+            <Border Stroke="White" WidthRequest="100">
+                <Image Source="{Binding}" />
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="stringCollectionTemplate">
+            <Border Stroke="White" WidthRequest="100">
+                <Label Text="{Binding}" HorizontalTextAlignment="Center" />
+            </Border>
+        </DataTemplate>
+
+        <utils:CollectionItemSelector x:Key="collectionDataTemplateSelector"
+                                      StringTemplate="{StaticResource stringCollectionTemplate}"
+                                      ImageTemplate="{StaticResource imageCollectionTemplate}" />
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static models:Icons.AddIcon}, FontFamily='MaterialIcons'}"
+                     Text="Add Column" Command="{Binding AddColumnCommand}" />
+
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.BindingContext>
+        <viewmodels:CollectionViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout HorizontalOptions="Center" Margin="0,50,0,0">
+        <FlexLayout BackgroundColor="CornflowerBlue" WidthRequest="{Binding Items.Width}">
+            <Label Text="{Binding Name}" FontSize="Medium" FlexLayout.Grow="0.8" />
+            <Label Text="Add Row" BackgroundColor="YellowGreen" VerticalOptions="Center" Padding="2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddItemCommand}" />
+                </Label.GestureRecognizers> 
+            </Label>
+            <Label FlexLayout.Grow="0.02"/>
+        </FlexLayout>
+
+        <CollectionView ItemsSource="{Binding Items.Columns}" SelectionMode="None" ItemsLayout="HorizontalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Stroke="White" WidthRequest="100">
+                        <Label Text="{Binding}" HorizontalTextAlignment="Center" />
+                    </Border>
+                </DataTemplate> 
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <CollectionView ItemsSource="{Binding Items}" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <FlexLayout>
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding .}"
+                                               BindableLayout.ItemTemplateSelector="{StaticResource collectionDataTemplateSelector}" 
+                        />
+                        <Border Stroke="White" WidthRequest="100">
+                            <CheckBox IsChecked="{Binding Sold}">
+                                <CheckBox.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding ToggleSoldCommand,
+                                        Source={RelativeSource AncestorType={x:Type viewmodels:CollectionViewModel}}}"
+                                        CommandParameter="{Binding .}" 
+                                    />
+                                </CheckBox.GestureRecognizers>
+                            </CheckBox>
+                        </Border>
+                        <Border Stroke="White" WidthRequest="100">
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Label FontFamily="MaterialIcons" Text="{x:Static models:Icons.EditIcon}"
+                                       FontSize="30">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding EditItemCommand,
+                                            Source={RelativeSource AncestorType={x:Type viewmodels:CollectionViewModel}}}"
+                                            CommandParameter="{Binding .}"
+                                        />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label FontFamily="MaterialIcons" Text="{x:Static models:Icons.DeleteIcon}"
+                                       FontSize="30">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding DeleteItemCommand,
+                                            Source={RelativeSource AncestorType={x:Type viewmodels:CollectionViewModel}}}"
+                                            CommandParameter="{Binding .}"
+                                        />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </FlexLayout>
+                </DataTemplate> 
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ColMg.ViewModels"
+             x:Class="ColMg.Views.EditIemPage"
+             Title="EditIemPage">
+    <ContentPage.BindingContext>
+        <viewmodels:EditItemViewModel />
+    </ContentPage.BindingContext>
+
+    <CollectionView ItemsSource="{Binding Item}" SelectionMode="None">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="(string,string)">
+                <HorizontalStackLayout>
+                    <Label Text="{Binding Item1}" />
+                    <Label Text="{Binding Item2}" />
+                </HorizontalStackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

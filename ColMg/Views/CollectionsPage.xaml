@@ -3,8 +3,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:ColMg.ViewModels"
+    xmlns:models="clr-namespace:ColMg.Models"
     x:Class="ColMg.Views.CollectionsPage"
     Title="CollectionsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static models:Icons.AddIcon}, FontFamily='MaterialIcons'}"
+                     Text="Add Collection" Command="{Binding AddCollectionCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.BindingContext>
+        <viewmodels:CollectionsViewModel />
+    </ContentPage.BindingContext>
 
     <CollectionView
         ItemsSource="{Binding Collections}"

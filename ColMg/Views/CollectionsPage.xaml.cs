@@ -4,10 +4,8 @@ namespace ColMg.Views;
 
 public partial class CollectionsPage : ContentPage
 {
-	public CollectionsPage(CollectionsViewModel viewModel)
+	public CollectionsPage()
 	{
 		InitializeComponent();
-
-		BindingContext = viewModel;
 	}
 }

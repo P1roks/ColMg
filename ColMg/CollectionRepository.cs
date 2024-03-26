@@ -8,30 +8,37 @@ using System.Threading.Tasks;
 
 namespace ColMg
 {
-    public class CollectionRepository
+    static public class CollectionRepository
     {
         static private readonly string dataDir = FileSystem.AppDataDirectory;
 
-        public CollectionRepository()
+        static CollectionRepository()
         {
             Trace.WriteLine(dataDir);
         }
 
-        public List<string> getCollections() =>
+        public static List<string> getCollections() =>
             Directory.GetFiles(dataDir, "*.txt")
             .Select(Path.GetFileNameWithoutExtension)
             .ToList();
 
-        public bool collectionExists(string collectionName)
+        public static bool collectionExists(string collectionName)
         {
             string path = Path.ChangeExtension(collectionName, ".txt");
             path = Path.Combine(dataDir, path);
             return File.Exists(path);
         }
 
-        public OrderedDictionary getCollection(string collectionName)
+        public static OrderedDictionary getCollection(string collectionName)
         {
             throw new NotImplementedException();
+        }
+
+        public static void createCollection(string collectionName)
+        {
+            string path = Path.ChangeExtension(collectionName, ".txt");
+            path = Path.Combine(dataDir, path);
+            File.Create(path);
         }
     }
 }

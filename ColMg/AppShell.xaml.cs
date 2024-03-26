@@ -7,7 +7,7 @@ namespace ColMg
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(EditElementPage), typeof(EditElementPage));
+            Routing.RegisterRoute(nameof(EditIemPage), typeof(EditIemPage));
             Routing.RegisterRoute(nameof(CollectionPage), typeof(CollectionPage));
             Routing.RegisterRoute(nameof(AddColumnPage), typeof(AddColumnPage));
         }
