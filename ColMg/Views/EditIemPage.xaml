@@ -8,14 +8,17 @@
         <viewmodels:EditItemViewModel />
     </ContentPage.BindingContext>
 
-    <CollectionView ItemsSource="{Binding Item}" SelectionMode="None">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="(string,string)">
-                <HorizontalStackLayout>
-                    <Label Text="{Binding Item1}" />
-                    <Label Text="{Binding Item2}" />
-                </HorizontalStackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <VerticalStackLayout>
+        <CollectionView ItemsSource="{Binding Item}" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <HorizontalStackLayout>
+                        <Label Text="{Binding Column}" />
+                        <Entry Text="{Binding Value}" />
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Zapisz" Command="{Binding SaveItemCommand}" />
+    </VerticalStackLayout>
 </ContentPage>

@@ -24,20 +24,19 @@
                                       ImageTemplate="{StaticResource imageCollectionTemplate}" />
     </ContentPage.Resources>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static models:Icons.AddIcon}, FontFamily='MaterialIcons'}"
-                     Text="Add Column" Command="{Binding AddColumnCommand}" />
-
-    </ContentPage.ToolbarItems>
-
     <ContentPage.BindingContext>
         <viewmodels:CollectionViewModel />
     </ContentPage.BindingContext>
 
     <VerticalStackLayout HorizontalOptions="Center" Margin="0,50,0,0">
-        <FlexLayout BackgroundColor="CornflowerBlue" WidthRequest="{Binding Items.Width}">
+        <FlexLayout BackgroundColor="CornflowerBlue" WidthRequest="{Binding Collection.Width}">
             <Label Text="{Binding Name}" FontSize="Medium" FlexLayout.Grow="0.8" />
-            <Label Text="Add Row" BackgroundColor="YellowGreen" VerticalOptions="Center" Padding="2">
+            <Label Text="Add Column" BackgroundColor="YellowGreen" VerticalOptions="Center" Padding="2" Margin="2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddColumnCommand}" />
+                </Label.GestureRecognizers> 
+            </Label>
+            <Label Text="Add Item" BackgroundColor="YellowGreen" VerticalOptions="Center" Padding="2">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AddItemCommand}" />
                 </Label.GestureRecognizers> 
@@ -45,7 +44,7 @@
             <Label FlexLayout.Grow="0.02"/>
         </FlexLayout>
 
-        <CollectionView ItemsSource="{Binding Items.Columns}" SelectionMode="None" ItemsLayout="HorizontalList">
+        <CollectionView ItemsSource="{Binding Collection.Columns}" SelectionMode="None" ItemsLayout="HorizontalList">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border Stroke="White" WidthRequest="100">
@@ -55,11 +54,11 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <CollectionView ItemsSource="{Binding Items}" SelectionMode="None">
+        <CollectionView ItemsSource="{Binding Collection.Items}" SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <FlexLayout>
-                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding .}"
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Fields}"
                                                BindableLayout.ItemTemplateSelector="{StaticResource collectionDataTemplateSelector}" 
                         />
                         <Border Stroke="White" WidthRequest="100">

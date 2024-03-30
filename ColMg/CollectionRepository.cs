@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ColMg.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -29,16 +30,41 @@ namespace ColMg
             return File.Exists(path);
         }
 
-        public static OrderedDictionary getCollection(string collectionName)
+        public static (IEnumerable<string>, IEnumerable<CollectionItem>) getCollection(string collectionName)
         {
-            throw new NotImplementedException();
+            string fileName = Path.ChangeExtension(collectionName, ".txt");
+            string path = Path.Combine(dataDir, fileName);
+            if(File.Exists(path))
+            {
+                var lines = File.ReadLines(path);
+                var columns = lines.First().Split(' ');
+                var items = from line in lines.Skip(1) select CollectionItem.FromLine(line);
+                return (columns, items);
+            }
+            else
+            {
+                return (null, null);
+            }
+        }
+
+        public static void saveCollection(CollectionHandler collection, string collectionName)
+        {
+            string fileName = Path.ChangeExtension(collectionName, ".txt");
+            string path = Path.Combine(dataDir, fileName);
+            using StreamWriter writer = new(path);
+
+            writer.WriteLine(string.Join(' ', collection.Columns));
+            foreach(var line in collection.Items)
+            {
+                writer.WriteLine(string.Join(' ', line));
+            }
         }
 
         public static void createCollection(string collectionName)
         {
             string path = Path.ChangeExtension(collectionName, ".txt");
             path = Path.Combine(dataDir, path);
-            File.Create(path);
+            File.WriteAllText(path, "Grafika Nazwa Sprzedane Opis");
         }
     }
 }
