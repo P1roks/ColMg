@@ -36,8 +36,15 @@ namespace ColMg.Models
             return new CollectionItem()
             {
                 Fields = split.SkipLast(1).ToList(),
-                Status = (ItemStatus)Enum.ToObject(typeof(ItemStatus), split.Last())
+                Status = (ItemStatus)Enum.ToObject(typeof(ItemStatus), Convert.ToInt32(split.Last()))
             };
+        }
+
+        public string ToLine()
+        {
+            string line = string.Join(' ', Fields);
+            line += $" {(int)Status}";
+            return line;
         }
     }
 
@@ -49,7 +56,7 @@ namespace ColMg.Models
         [ObservableProperty]
         private ObservableCollection<CollectionItem> items = new();
 
-        public int Width { get => Columns.Count * 100; }
+        public int Width { get => Columns.Count != 0 ? Columns.Count * 100 : 500; }
 
         public void AddColumn(string columnName)
         {
@@ -85,20 +92,9 @@ namespace ColMg.Models
             {
                 Items.Add(itm);
             }
+            OnPropertyChanged(nameof(Width));
         }
 
-        public CollectionHandler()
-        {
-            Columns.Add("Nazwa");
-            Columns.Add("Cena");
-            Columns.Add("Opis");
-            Columns.Add("Status");
-            Columns.Add("Opcje");
-                
-            Items.Add(new CollectionItem(new() { "Pokemon", null, "cool"}));
-            Items[0].Status = ItemStatus.LookingToBuy;
-            Items.Add(new CollectionItem(new() { "https://i.imgur.com/wCDzMBa.jpeg", "10", "cooler" }));
-            Items.Add(new CollectionItem(new() { "Pokemon FireRed", "20", "[cool]" }));
-        }
+        public CollectionHandler() { }
     }
 }

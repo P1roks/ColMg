@@ -12,10 +12,6 @@
                      Text="Add Collection" Command="{Binding AddCollectionCommand}" />
     </ContentPage.ToolbarItems>
 
-    <ContentPage.BindingContext>
-        <viewmodels:CollectionsViewModel />
-    </ContentPage.BindingContext>
-
     <CollectionView
         ItemsSource="{Binding Collections}"
         SelectionMode="None"

@@ -24,10 +24,6 @@
                                       ImageTemplate="{StaticResource imageCollectionTemplate}" />
     </ContentPage.Resources>
 
-    <ContentPage.BindingContext>
-        <viewmodels:CollectionViewModel />
-    </ContentPage.BindingContext>
-
     <VerticalStackLayout HorizontalOptions="Center" Margin="0,50,0,0">
         <FlexLayout BackgroundColor="CornflowerBlue" WidthRequest="{Binding Collection.Width}">
             <Label Text="{Binding Name}" FontSize="Medium" FlexLayout.Grow="0.8" />

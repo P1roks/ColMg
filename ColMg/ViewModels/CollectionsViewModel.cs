@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace ColMg.ViewModels
 {
     public partial class CollectionsViewModel
     {
-        public List<string> Collections { get => CollectionRepository.getCollections(); }
-        
+        public ObservableCollection<string> Collections { get; private set; } = new(CollectionRepository.getCollections());
+
         [RelayCommand]
         private async Task SelectCollection(string collectionName)
         {
@@ -27,6 +28,7 @@ namespace ColMg.ViewModels
                !CollectionRepository.collectionExists(collectionName))
             {
                 CollectionRepository.createCollection(collectionName);
+                Collections.Add(collectionName);
                 await SelectCollection(collectionName);
             }
         }

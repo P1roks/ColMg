@@ -54,9 +54,9 @@ namespace ColMg
             using StreamWriter writer = new(path);
 
             writer.WriteLine(string.Join(' ', collection.Columns));
-            foreach(var line in collection.Items)
+            foreach(var item in collection.Items)
             {
-                writer.WriteLine(string.Join(' ', line));
+                writer.WriteLine(item.ToLine());
             }
         }
 

@@ -1,9 +1,7 @@
 ﻿using ColMg.Models;
-using ColMg.Utils;
 using ColMg.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel;
 using System.Diagnostics;
 
 namespace ColMg.ViewModels
@@ -21,6 +19,7 @@ namespace ColMg.ViewModels
             if (columnName == null) return;
 
             Collection.AddColumn(columnName);
+            CollectionRepository.saveCollection(Collection, Name);
         }
 
         [RelayCommand]
@@ -28,7 +27,8 @@ namespace ColMg.ViewModels
         {
             var describedItem = Collection.Columns.Zip(item.Fields);
             await Shell.Current.GoToAsync(nameof(EditIemPage),
-                new Dictionary<string, object>() { {"item", describedItem}, { "idx", Collection.Items.IndexOf(item) }, { "status", item.Status} });
+                new Dictionary<string, object>()
+                { {"item", describedItem}, { "idx", Collection.Items.IndexOf(item) }, { "status", item.Status} });
         }
 
         [RelayCommand]
@@ -43,6 +43,7 @@ namespace ColMg.ViewModels
         public void DeleteItem(CollectionItem item) 
         {
             Collection.Items.Remove(item);
+            CollectionRepository.saveCollection(Collection, Name);
         }
 
         [RelayCommand]
@@ -60,9 +61,8 @@ namespace ColMg.ViewModels
         {
             if (query.ContainsKey("collection"))
             {
-                // TODO: load collection with given name
                 Name = (string)query["collection"];
-                Trace.WriteLine(query["collection"]);
+                Collection.Load(Name);
             }
 
             if (query.ContainsKey("item"))
@@ -98,6 +98,7 @@ namespace ColMg.ViewModels
                     }
                     Collection.Items.Add(item);
                 }
+                CollectionRepository.saveCollection(Collection, Name);
             }
         }
     }

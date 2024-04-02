@@ -9,7 +9,6 @@ namespace ColMg
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditIemPage), typeof(EditIemPage));
             Routing.RegisterRoute(nameof(CollectionPage), typeof(CollectionPage));
-            Routing.RegisterRoute(nameof(AddColumnPage), typeof(AddColumnPage));
         }
     }
 }

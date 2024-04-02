@@ -17,12 +17,11 @@ namespace ColMg
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
                 })
-                //.Services
-                //    .AddSingleton<CollectionRepository>()
-                //    .AddSingleton<CollectionsViewModel>()
-                //    .AddSingleton<CollectionsPage>()
-                //    .AddSingleton<CollectionViewModel>()
-                //    .AddSingleton<CollectionPage>()
+                .Services
+                    .AddSingleton<CollectionsViewModel>()
+                    .AddSingleton<CollectionsPage>()
+                    .AddSingleton<CollectionViewModel>()
+                    .AddSingleton<CollectionPage>()
                 ;
 
 #if DEBUG
