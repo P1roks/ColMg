@@ -1,17 +1,18 @@
 ﻿using ColMg.Models;
+using ColMg.Utils;
 using ColMg.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
 using System.Diagnostics;
 
 namespace ColMg.ViewModels
 {
-    public partial class CollectionViewModel : IQueryAttributable
+    public partial class CollectionViewModel : ObservableObject, IQueryAttributable
     {
-        public string Name { get; set; } = "Collection";
+        [ObservableProperty]
+        public string name = "Collection";
         public CollectionHandler Collection { get; set; } = new();
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [RelayCommand]
         public async Task AddColumn()
@@ -27,7 +28,7 @@ namespace ColMg.ViewModels
         {
             var describedItem = Collection.Columns.Zip(item.Fields);
             await Shell.Current.GoToAsync(nameof(EditIemPage),
-                new Dictionary<string, object>() { {"item", describedItem}, { "idx", Collection.Items.IndexOf(item) } });
+                new Dictionary<string, object>() { {"item", describedItem}, { "idx", Collection.Items.IndexOf(item) }, { "status", item.Status} });
         }
 
         [RelayCommand]
@@ -39,19 +40,20 @@ namespace ColMg.ViewModels
         }
 
         [RelayCommand]
-        public async Task DeleteItem(CollectionItem item) 
+        public void DeleteItem(CollectionItem item) 
         {
             Collection.Items.Remove(item);
         }
 
         [RelayCommand]
-        public async Task ToggleSold(CollectionItem item)
+        public async Task GenerateSummary()
         {
-            int itemIdx = Collection.Items.IndexOf(item);
-            // Move to first non-sold space or to end
-            int moveIdx = item.Sold ? Collection.Items.TakeWhile(i => !i.Sold).Count() : Collection.Items.Count - 1;
-            item.toggleSold();
-            Collection.Items.Move(itemIdx, moveIdx);
+            string summaryText =
+                $"Owned Items: {Collection.Items.Count()}\n" +
+                $"Sold Items: {Collection.Items.Where(x => x.Status == ItemStatus.Sold).Count()}\n" +
+                $"Items For Sale: {Collection.Items.Where(x => x.Status == ItemStatus.ForSale).Count()}";
+
+            await Shell.Current.DisplayAlert("Summary", summaryText, "Close");
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -66,13 +68,26 @@ namespace ColMg.ViewModels
             if (query.ContainsKey("item"))
             {
                 CollectionItem item = (CollectionItem)query["item"];
-                int? idx = (int?)query["idx"];
-                if(idx is not null)
+                int? maybeIdx = (int?)query["idx"];
+                if(maybeIdx is int idx)
                 {
-                    Collection.Items[idx.Value] = item;
+                    ItemStatus prevStatus = Collection.Items[idx].Status;
+                    ItemStatus newStatus = item.Status;
+                    Collection.Items[idx] = item;
+
+                    // Group together sold items at the end
+                    if(newStatus == ItemStatus.Sold && prevStatus != ItemStatus.Sold)
+                    {
+                        Collection.Items.Move(idx, Collection.Items.Count() - 1);
+                    }
+                    else if(prevStatus == ItemStatus.Sold &&  newStatus != ItemStatus.Sold)
+                    {
+                        Collection.Items.Move(idx, 0);
+                    }
                 }
                 else
                 {
+                    // Check if this item already exists
                     if(Collection.Items.Any(other => other.Fields.SequenceEqual(item.Fields)))
                     {
                         if(!await Shell.Current.DisplayAlert("Item Exists",

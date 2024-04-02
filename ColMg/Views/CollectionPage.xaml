@@ -62,15 +62,7 @@
                                                BindableLayout.ItemTemplateSelector="{StaticResource collectionDataTemplateSelector}" 
                         />
                         <Border Stroke="White" WidthRequest="100">
-                            <CheckBox IsChecked="{Binding Sold}">
-                                <CheckBox.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding ToggleSoldCommand,
-                                        Source={RelativeSource AncestorType={x:Type viewmodels:CollectionViewModel}}}"
-                                        CommandParameter="{Binding .}" 
-                                    />
-                                </CheckBox.GestureRecognizers>
-                            </CheckBox>
+                            <Label Text="{Binding StatusString}" HorizontalTextAlignment="Center" />
                         </Border>
                         <Border Stroke="White" WidthRequest="100">
                             <HorizontalStackLayout HorizontalOptions="Center">
@@ -100,5 +92,6 @@
                 </DataTemplate> 
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Button Text="Generate Summary" Command="{Binding GenerateSummaryCommand}" />
     </VerticalStackLayout>
 </ContentPage>

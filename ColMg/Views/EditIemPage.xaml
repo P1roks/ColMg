@@ -2,8 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:ColMg.ViewModels"
+             xmlns:utils="clr-namespace:ColMg.Utils"
              x:Class="ColMg.Views.EditIemPage"
              Title="EditIemPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <utils:EnumIntConverter x:Key="EnumIntConverter" />
+        </ResourceDictionary>        
+    </ContentPage.Resources>
+
     <ContentPage.BindingContext>
         <viewmodels:EditItemViewModel />
     </ContentPage.BindingContext>
@@ -19,6 +26,10 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <HorizontalStackLayout>
+            <Label Text="Status" />
+            <Picker ItemsSource="{Binding Statuses}" SelectedIndex="{Binding Status, Converter={StaticResource EnumIntConverter}}" />
+        </HorizontalStackLayout>
         <Button Text="Zapisz" Command="{Binding SaveItemCommand}" />
     </VerticalStackLayout>
 </ContentPage>

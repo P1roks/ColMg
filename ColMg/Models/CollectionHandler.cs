@@ -1,18 +1,26 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using ColMg.Utils;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace ColMg.Models
 {
+    public enum ItemStatus
+    {
+        New,
+        Used,
+        ForSale,
+        Sold,
+        LookingToBuy,
+    }
+
     public class CollectionItem
     {
         public List<string> Fields { get; set; }
-        public bool Sold { get; private set; }
-
-        public void toggleSold()
-        {
-            Sold = !Sold;
+        public ItemStatus Status { get; set; }
+        public string StatusString {
+            get => Status.ToString().SplitCamelCase();
         }
 
         public CollectionItem(List<string> fields)
@@ -28,7 +36,7 @@ namespace ColMg.Models
             return new CollectionItem()
             {
                 Fields = split.SkipLast(1).ToList(),
-                Sold = Convert.ToBoolean(split.Last()),
+                Status = (ItemStatus)Enum.ToObject(typeof(ItemStatus), split.Last())
             };
         }
     }
@@ -84,10 +92,11 @@ namespace ColMg.Models
             Columns.Add("Nazwa");
             Columns.Add("Cena");
             Columns.Add("Opis");
-            Columns.Add("Sprzedane");
+            Columns.Add("Status");
             Columns.Add("Opcje");
                 
             Items.Add(new CollectionItem(new() { "Pokemon", null, "cool"}));
+            Items[0].Status = ItemStatus.LookingToBuy;
             Items.Add(new CollectionItem(new() { "https://i.imgur.com/wCDzMBa.jpeg", "10", "cooler" }));
             Items.Add(new CollectionItem(new() { "Pokemon FireRed", "20", "[cool]" }));
         }

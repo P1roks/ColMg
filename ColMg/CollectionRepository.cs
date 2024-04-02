@@ -64,7 +64,7 @@ namespace ColMg
         {
             string path = Path.ChangeExtension(collectionName, ".txt");
             path = Path.Combine(dataDir, path);
-            File.WriteAllText(path, "Grafika Nazwa Sprzedane Opis");
+            File.WriteAllText(path, "Grafika Nazwa Status Opis");
         }
     }
 }
