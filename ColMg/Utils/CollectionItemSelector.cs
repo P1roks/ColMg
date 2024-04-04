@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ColMg.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,15 @@ namespace ColMg.Utils
     {
         public DataTemplate StringTemplate { get; set; }
         public DataTemplate ImageTemplate { get; set; }
+        public DataTemplate StatusTemplate { get; set; }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (Uri.IsWellFormedUriString((string)item, UriKind.Absolute))
+            if(item is ItemStatus)
+            {
+                return StatusTemplate;
+            }
+            else if(item is string itemString && CollectionRepository.getImagePath(itemString) != null)
             {
                 return ImageTemplate;
             }

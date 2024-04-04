@@ -4,7 +4,7 @@
              xmlns:viewmodels="clr-namespace:ColMg.ViewModels"
              xmlns:utils="clr-namespace:ColMg.Utils"
              x:Class="ColMg.Views.EditIemPage"
-             Title="EditIemPage">
+             Title="Edit Item">
     <ContentPage.Resources>
         <ResourceDictionary>
             <utils:EnumIntConverter x:Key="EnumIntConverter" />
@@ -16,6 +16,10 @@
     </ContentPage.BindingContext>
 
     <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Image" />
+            <Button Text="Select an Image" Command="{Binding SelectImageCommand}" />
+        </HorizontalStackLayout>
         <CollectionView ItemsSource="{Binding Item}" SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>

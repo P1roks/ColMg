@@ -9,7 +9,7 @@
     <ContentPage.Resources>
         <DataTemplate x:Key="imageCollectionTemplate">
             <Border Stroke="White" WidthRequest="100">
-                <Image Source="{Binding}" />
+                <Image Source="{Binding ., Converter={StaticResource imageLocationConverter}}" />
             </Border>
         </DataTemplate>
 
@@ -19,10 +19,24 @@
             </Border>
         </DataTemplate>
 
+        <DataTemplate x:Key="statusCollectionTemplate">
+            <Border Stroke="White" WidthRequest="100">
+                <Label Text="{Binding ., Converter={StaticResource itemStatusConverter}}" HorizontalTextAlignment="Center" />
+            </Border>
+        </DataTemplate>
+
+        <utils:ItemStatusConverter x:Key="itemStatusConverter" />
+        <utils:ImageLocationConverter x:Key="imageLocationConverter" />
         <utils:CollectionItemSelector x:Key="collectionDataTemplateSelector"
+                                      StatusTemplate="{StaticResource statusCollectionTemplate}"
                                       StringTemplate="{StaticResource stringCollectionTemplate}"
                                       ImageTemplate="{StaticResource imageCollectionTemplate}" />
     </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static models:Icons.ExportIcon}, FontFamily='MaterialIcons'}"
+                     Text="Export Collection" Command="{Binding ExportCollectionCommand}" />
+    </ContentPage.ToolbarItems>
 
     <VerticalStackLayout HorizontalOptions="Center" Margin="0,50,0,0">
         <FlexLayout BackgroundColor="CornflowerBlue" WidthRequest="{Binding Collection.Width}">
@@ -54,12 +68,9 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <FlexLayout>
-                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Fields}"
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding DisplayFields}"
                                                BindableLayout.ItemTemplateSelector="{StaticResource collectionDataTemplateSelector}" 
                         />
-                        <Border Stroke="White" WidthRequest="100">
-                            <Label Text="{Binding StatusString}" HorizontalTextAlignment="Center" />
-                        </Border>
                         <Border Stroke="White" WidthRequest="100">
                             <HorizontalStackLayout HorizontalOptions="Center">
                                 <Label FontFamily="MaterialIcons" Text="{x:Static models:Icons.EditIcon}"

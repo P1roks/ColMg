@@ -5,11 +5,13 @@
     xmlns:viewmodels="clr-namespace:ColMg.ViewModels"
     xmlns:models="clr-namespace:ColMg.Models"
     x:Class="ColMg.Views.CollectionsPage"
-    Title="CollectionsPage">
+    Title="Collections">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{FontImage Glyph={x:Static models:Icons.AddIcon}, FontFamily='MaterialIcons'}"
-                     Text="Add Collection" Command="{Binding AddCollectionCommand}" />
+                     Text="Create Collection" Command="{Binding AddCollectionCommand}" />
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static models:Icons.ImportIcon}, FontFamily='MaterialIcons'}"
+                     Text="Import Collection" Command="{Binding ImportCollectionCommand}" />
     </ContentPage.ToolbarItems>
 
     <CollectionView
