@@ -15,19 +15,23 @@
     </ContentPage.ToolbarItems>
 
     <CollectionView
+        VerticalOptions="Center"
+        Margin="100,0"
         ItemsSource="{Binding Collections}"
         SelectionMode="None"
         ItemsLayout="VerticalGrid, 3">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Label Text="{Binding .}" Background="Lime">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
+                <Border Padding="20" Margin="20" Style="{StaticResource SecondaryContainer}">
+                    <Label Text="{Binding .}" Style="{StaticResource LabelSecondaryContainer}" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
                             Command="{Binding SelectCollectionCommand,
                                 Source={RelativeSource AncestorType={x:Type viewmodels:CollectionsViewModel}}}"
                             CommandParameter="{Binding .}" />
-                    </Label.GestureRecognizers>
-                </Label>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Border>
             </DataTemplate>
         </CollectionView.ItemTemplate> 
     </CollectionView>

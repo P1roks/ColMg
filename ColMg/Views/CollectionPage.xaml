@@ -15,13 +15,13 @@
 
         <DataTemplate x:Key="stringCollectionTemplate">
             <Border Stroke="White" WidthRequest="100">
-                <Label Text="{Binding}" HorizontalTextAlignment="Center" />
+                <Label Text="{Binding}" HorizontalTextAlignment="Center" Style="{StaticResource TertiaryContainerText}" />
             </Border>
         </DataTemplate>
 
         <DataTemplate x:Key="statusCollectionTemplate">
             <Border Stroke="White" WidthRequest="100">
-                <Label Text="{Binding ., Converter={StaticResource itemStatusConverter}}" HorizontalTextAlignment="Center" />
+                <Label Text="{Binding ., Converter={StaticResource itemStatusConverter}}" HorizontalTextAlignment="Center" Style="{StaticResource TertiaryContainerText}" />
             </Border>
         </DataTemplate>
 
@@ -39,14 +39,14 @@
     </ContentPage.ToolbarItems>
 
     <VerticalStackLayout HorizontalOptions="Center" Margin="0,50,0,0">
-        <FlexLayout BackgroundColor="CornflowerBlue" WidthRequest="{Binding Collection.Width}">
-            <Label Text="{Binding Name}" FontSize="Medium" FlexLayout.Grow="0.8" />
-            <Label Text="Add Column" BackgroundColor="YellowGreen" VerticalOptions="Center" Padding="2" Margin="2">
+        <FlexLayout Style="{StaticResource PrimaryContainer}" WidthRequest="{Binding Collection.Width}">
+            <Label Text="{Binding Name}" Style="{StaticResource LabelPrimaryContainer}" FontSize="Medium" FlexLayout.Grow="0.8" Margin="5,0,0,0" />
+            <Label Text="Add Column" Style="{StaticResource TertiaryContainer}" VerticalOptions="Center" Padding="2" Margin="2">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AddColumnCommand}" />
                 </Label.GestureRecognizers> 
             </Label>
-            <Label Text="Add Item" BackgroundColor="YellowGreen" VerticalOptions="Center" Padding="2">
+            <Label Text="Add Item" Style="{StaticResource TertiaryContainer}" VerticalOptions="Center" Padding="2">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AddItemCommand}" />
                 </Label.GestureRecognizers> 
@@ -58,7 +58,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border Stroke="White" WidthRequest="100">
-                        <Label Text="{Binding}" HorizontalTextAlignment="Center" />
+                        <Label Text="{Binding}" HorizontalTextAlignment="Center" Style="{StaticResource LabelSecondaryContainer}" FontAttributes="Bold" />
                     </Border>
                 </DataTemplate> 
             </CollectionView.ItemTemplate>
@@ -70,11 +70,12 @@
                     <FlexLayout>
                         <HorizontalStackLayout BindableLayout.ItemsSource="{Binding DisplayFields}"
                                                BindableLayout.ItemTemplateSelector="{StaticResource collectionDataTemplateSelector}" 
+                                               Style="{StaticResource TertiaryContainer}"
                         />
-                        <Border Stroke="White" WidthRequest="100">
+                        <Border Stroke="White" WidthRequest="100" Style="{StaticResource TertiaryContainer}">
                             <HorizontalStackLayout HorizontalOptions="Center">
                                 <Label FontFamily="MaterialIcons" Text="{x:Static models:Icons.EditIcon}"
-                                       FontSize="30">
+                                       Style="{StaticResource TertiaryContainerText}" FontSize="30">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer
                                             Command="{Binding EditItemCommand,
@@ -84,7 +85,7 @@
                                     </Label.GestureRecognizers>
                                 </Label>
                                 <Label FontFamily="MaterialIcons" Text="{x:Static models:Icons.DeleteIcon}"
-                                       FontSize="30">
+                                       Style="{StaticResource TertiaryContainerText}" FontSize="30">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer
                                             Command="{Binding DeleteItemCommand,
@@ -99,6 +100,6 @@
                 </DataTemplate> 
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Generate Summary" Command="{Binding GenerateSummaryCommand}" />
+        <Button Text="Generate Summary" Command="{Binding GenerateSummaryCommand}" Style="{StaticResource SecondaryContainer}" />
     </VerticalStackLayout>
 </ContentPage>

@@ -15,25 +15,29 @@
         <viewmodels:EditItemViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout>
-        <HorizontalStackLayout>
-            <Label Text="Image" />
-            <Button Text="Select an Image" Command="{Binding SelectImageCommand}" />
-        </HorizontalStackLayout>
+    <VerticalStackLayout HorizontalOptions="Center">
+        <StackLayout Orientation="Horizontal" Spacing="25" Margin="0,10">
+            <Label Text="Image" WidthRequest="50" Style="{StaticResource TertiaryText}" />
+            <Button Text="Select an Image" Command="{Binding SelectImageCommand}" Style="{StaticResource TertiaryContainer}" WidthRequest="300" />
+        </StackLayout>
         <CollectionView ItemsSource="{Binding Item}" SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <HorizontalStackLayout>
-                        <Label Text="{Binding Column}" />
-                        <Entry Text="{Binding Value}" />
-                    </HorizontalStackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="25">
+                        <Label Text="{Binding Column}" WidthRequest="50" Style="{StaticResource TertiaryText}" />
+                        <Entry Text="{Binding Value}" WidthRequest="300" Style="{StaticResource TertiaryContainer}" />
+                    </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <HorizontalStackLayout>
-            <Label Text="Status" />
-            <Picker ItemsSource="{Binding Statuses}" SelectedIndex="{Binding Status, Converter={StaticResource EnumIntConverter}}" />
-        </HorizontalStackLayout>
-        <Button Text="Zapisz" Command="{Binding SaveItemCommand}" />
+        <StackLayout Orientation="Horizontal" Spacing="25" Margin="0,10">
+            <Label Text="Status" WidthRequest="50" Style="{StaticResource TertiaryText}" />
+            <Picker ItemsSource="{Binding Statuses}" SelectedIndex="{Binding Status, Converter={StaticResource EnumIntConverter}}" Style="{StaticResource TertiaryContainer}" WidthRequest="300" />
+        </StackLayout>
+        <Button Text="Save" Command="{Binding SaveItemCommand}" Style="{StaticResource TertiaryContainer}" />
     </VerticalStackLayout>
 </ContentPage>
