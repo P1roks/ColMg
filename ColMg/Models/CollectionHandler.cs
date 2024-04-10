@@ -16,13 +16,12 @@ namespace ColMg.Models
 
         public void AddColumn(string columnName)
         {
-            Columns.Add(columnName);
-            // Move before options and sold
-            Columns.Move(Columns.Count - 1, Columns.Count - 3);
+            // Insert before options and sold
+            Columns.Insert(Columns.Count - 2, columnName);
             for (int i = 0; i < Items.Count; i++)
             {
                 Items[i].ExtraFields.Add("");
-                //This triggers the property changed event, probably need to change this later
+                //This triggers the property changed event, don't know any other way to do it
                 Items[i] = Items[i];
             }
             OnPropertyChanged(nameof(Width));
@@ -30,8 +29,8 @@ namespace ColMg.Models
 
         public void Load(string collectionName)
         {
-            (var columnsFile, var itemsFile) = CollectionRepository.getCollection(collectionName);
-            if (columnsFile == null || itemsFile == null)
+            (var columnsFile, var itemsFile) = CollectionRepository.GetCollection(collectionName);
+            if (columnsFile is null || itemsFile is null)
             {
                 return;
             }

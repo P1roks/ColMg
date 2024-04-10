@@ -8,9 +8,10 @@ namespace ColMg.Models
         {
             get
             {
-                List<object> fields = new();
-
-                fields.Add(ImageLocation);
+                List<object> fields = new()
+                {
+                    ImageLocation
+                };
                 fields.AddRange(ExtraFields);
                 fields.Add(Status);
 
@@ -19,6 +20,8 @@ namespace ColMg.Models
         }
 
         public List<string> ExtraFields { get; set; }
+
+        public float Opacity { get => Status == ItemStatus.Sold ? 0.5f : 1.0f; }
         public ItemStatus Status { get; set; }
         public string StatusString {
             get => Status.ToString().SplitCamelCase();
@@ -46,9 +49,10 @@ namespace ColMg.Models
 
         public string ToLine()
         {
-            List<object> fields = new();
-
-            fields.Add(ImageLocation);
+            List<object> fields = new()
+            {
+                ImageLocation
+            };
             fields.AddRange(ExtraFields);
             fields.Add((int)Status);
 

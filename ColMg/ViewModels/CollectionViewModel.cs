@@ -15,7 +15,7 @@ namespace ColMg.ViewModels
         [RelayCommand]
         private async Task ExportCollection()
         {
-            if (CollectionRepository.exportCollection(Name))
+            if (CollectionRepository.ExportCollection(Name))
             {
                 await Shell.Current.DisplayAlert("Export", "Exported succesfully to documents folder!", "Close");
             }
@@ -32,7 +32,7 @@ namespace ColMg.ViewModels
             if (columnName == null) return;
 
             Collection.AddColumn(columnName);
-            CollectionRepository.saveCollection(Collection, Name);
+            CollectionRepository.SaveCollection(Collection, Name);
         }
 
         [RelayCommand]
@@ -58,14 +58,14 @@ namespace ColMg.ViewModels
         private void DeleteItem(CollectionItem item)
         {
             Collection.Items.Remove(item);
-            CollectionRepository.saveCollection(Collection, Name);
+            CollectionRepository.SaveCollection(Collection, Name);
         }
 
         [RelayCommand]
         private async Task GenerateSummary()
         {
             string summaryText =
-                $"Owned Items: {Collection.Items.Count()}\n" +
+                $"Owned Items: {Collection.Items.Count}\n" +
                 $"Sold Items: {Collection.Items.Where(x => x.Status == ItemStatus.Sold).Count()}\n" +
                 $"Items For Sale: {Collection.Items.Where(x => x.Status == ItemStatus.ForSale).Count()}";
 
@@ -93,7 +93,7 @@ namespace ColMg.ViewModels
                     // Group together sold items at the end
                     if (newStatus == ItemStatus.Sold && prevStatus != ItemStatus.Sold)
                     {
-                        Collection.Items.Move(idx, Collection.Items.Count() - 1);
+                        Collection.Items.Move(idx, Collection.Items.Count - 1);
                     }
                     else if (prevStatus == ItemStatus.Sold && newStatus != ItemStatus.Sold)
                     {
@@ -111,9 +111,10 @@ namespace ColMg.ViewModels
                             return;
                         }
                     }
-                    Collection.Items.Add(item);
+                    int firstNonSoldIdx = Collection.Items.TakeWhile(x => x.Status != ItemStatus.Sold).Count();
+                    Collection.Items.Insert(firstNonSoldIdx, item);
                 }
-                CollectionRepository.saveCollection(Collection, Name);
+                CollectionRepository.SaveCollection(Collection, Name);
             }
         }
     }

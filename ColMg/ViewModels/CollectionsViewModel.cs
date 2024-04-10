@@ -7,7 +7,7 @@ namespace ColMg.ViewModels
 {
     public partial class CollectionsViewModel
     {
-        public ObservableCollection<string> Collections { get; private set; } = new(CollectionRepository.getCollections());
+        public ObservableCollection<string> Collections { get; private set; } = new(CollectionRepository.GetAllCollections());
 
         [RelayCommand]
         private async Task SelectCollection(string collectionName)
@@ -23,7 +23,7 @@ namespace ColMg.ViewModels
                 var file = await FilePicker.PickAsync();
                 if (file != null)
                 {
-                    if (CollectionRepository.importCollection(file.FullPath))
+                    if (CollectionRepository.ImportCollection(file.FullPath))
                     {
                         Collections.Add(Path.GetFileNameWithoutExtension(file.FullPath));
                     }
@@ -44,9 +44,9 @@ namespace ColMg.ViewModels
             string collectionName = await Shell.Current.DisplayPromptAsync("Add Collection", "Enter new collection name: ");
             if (!string.IsNullOrWhiteSpace(collectionName) &&
                collectionName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 &&
-               !CollectionRepository.collectionExists(collectionName))
+               !CollectionRepository.CollectionExists(collectionName))
             {
-                CollectionRepository.createCollection(collectionName);
+                CollectionRepository.CreateCollection(collectionName);
                 Collections.Add(collectionName);
                 await SelectCollection(collectionName);
             }

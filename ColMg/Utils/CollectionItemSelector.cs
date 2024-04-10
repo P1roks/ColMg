@@ -19,7 +19,7 @@ namespace ColMg.Utils
             {
                 return StatusTemplate;
             }
-            else if(item is string itemString && CollectionRepository.getImagePath(itemString) != null)
+            else if(item is string itemString && CollectionRepository.GetImagePath(itemString) != null)
             {
                 return ImageTemplate;
             }

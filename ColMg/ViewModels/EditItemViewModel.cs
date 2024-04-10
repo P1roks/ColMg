@@ -14,10 +14,7 @@ namespace ColMg.ViewModels
         [ObservableProperty]
         public ItemStatus status;
 
-        public List<string> Statuses
-        {
-            get => Enum.GetNames(typeof(ItemStatus)).Select(x => x.SplitCamelCase()).ToList();
-        }
+        public static List<string> Statuses => Enum.GetNames(typeof(ItemStatus)).Select(x => x.SplitCamelCase()).ToList();
 
         private int? itemIdx = null;
         private string imagePath = null;
@@ -34,7 +31,7 @@ namespace ColMg.ViewModels
                        image.FileName.EndsWith("png", StringComparison.OrdinalIgnoreCase) || 
                        image.FileName.EndsWith("gif", StringComparison.OrdinalIgnoreCase))
                     {
-                        imagePath = CollectionRepository.importImage(image.FullPath);
+                        imagePath = CollectionRepository.ImportImage(image.FullPath);
                     }
                 }
             }
@@ -49,9 +46,11 @@ namespace ColMg.ViewModels
         [RelayCommand]
         public async Task SaveItem()
         {
-            CollectionItem itemResponse = new(Item.Select(x => x.Value).ToList());
-            itemResponse.Status = Status;
-            itemResponse.ImageLocation = imagePath;
+            CollectionItem itemResponse = new(Item.Select(x => x.Value).ToList())
+            {
+                Status = Status,
+                ImageLocation = imagePath
+            };
             await Shell.Current.GoToAsync("..",
                 new Dictionary<string, object>() { { "item", itemResponse }, { "idx", itemIdx } });
         }

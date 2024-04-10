@@ -19,19 +19,19 @@ namespace ColMg
             Trace.WriteLine(dataDir);
         }
 
-        public static List<string> getCollections() =>
+        public static List<string> GetAllCollections() =>
             Directory.GetFiles(dataDir, "*.txt")
             .Select(Path.GetFileNameWithoutExtension)
             .ToList();
 
-        public static bool collectionExists(string collectionName)
+        public static bool CollectionExists(string collectionName)
         {
             string path = Path.ChangeExtension(collectionName, ".txt");
             path = Path.Combine(dataDir, path);
             return File.Exists(path);
         }
 
-        public static bool exportCollection(string collectionName)
+        public static bool ExportCollection(string collectionName)
         {
             string collection = Path.ChangeExtension(collectionName, ".txt");
             string destinationPath = Path.Combine(Microsoft.VisualBasic.FileIO.SpecialDirectories.MyDocuments, collection);
@@ -49,7 +49,7 @@ namespace ColMg
             }
         }
 
-        public static bool importCollection(string externalPath)
+        public static bool ImportCollection(string externalPath)
         {
             string importedName = Path.GetFileName(externalPath);
             string collection = Path.ChangeExtension(importedName, ".txt");
@@ -113,7 +113,7 @@ namespace ColMg
 
                 using StreamWriter writer = File.CreateText(internalPath);
                 // This Column always has no data
-                outputColumns.Add("Akcje");
+                outputColumns.Add("Actions");
                 writer.WriteLine(string.Join(";", outputColumns));
                 foreach(var line in outputItems)
                 {
@@ -123,7 +123,7 @@ namespace ColMg
             return false;
         }
 
-        public static (IEnumerable<string>, IEnumerable<CollectionItem>) getCollection(string collectionName)
+        public static (IEnumerable<string>, IEnumerable<CollectionItem>) GetCollection(string collectionName)
         {
             string fileName = Path.ChangeExtension(collectionName, ".txt");
             string path = Path.Combine(dataDir, fileName);
@@ -140,7 +140,7 @@ namespace ColMg
             }
         }
 
-        public static void saveCollection(CollectionHandler collection, string collectionName)
+        public static void SaveCollection(CollectionHandler collection, string collectionName)
         {
             string fileName = Path.ChangeExtension(collectionName, ".txt");
             string path = Path.Combine(dataDir, fileName);
@@ -153,14 +153,14 @@ namespace ColMg
             }
         }
 
-        public static void createCollection(string collectionName)
+        public static void CreateCollection(string collectionName)
         {
             string path = Path.ChangeExtension(collectionName, ".txt");
             path = Path.Combine(dataDir, path);
-            File.WriteAllText(path, "Grafika;Nazwa;Status;Akcje");
+            File.WriteAllText(path, "Image;Name;Status;Actions");
         }
 
-        public static string importImage(string imagePath)
+        public static string ImportImage(string imagePath)
         {
             string extension = Path.GetExtension(imagePath);
             string imageName = $"{Guid.NewGuid()}{extension}";
@@ -169,14 +169,10 @@ namespace ColMg
             return imageName;
         }
 
-        public static string getImagePath(string imageName)
+        public static string GetImagePath(string imageName)
         {
             string maybePath = Path.Combine(imageDir, imageName);
-            if (File.Exists(maybePath))
-            {
-                return maybePath;
-            }
-            return null;
+            return File.Exists(maybePath) ? maybePath : null;
         }
     }
 }

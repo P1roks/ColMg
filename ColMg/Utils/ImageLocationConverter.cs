@@ -13,7 +13,7 @@ namespace ColMg.Utils
         {
             if(value is string stringValue)
             {
-                return CollectionRepository.getImagePath(stringValue);
+                return CollectionRepository.GetImagePath(stringValue);
             }
             return 0;
         }

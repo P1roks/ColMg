@@ -15,7 +15,7 @@
         <viewmodels:EditItemViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout HorizontalOptions="Center">
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
         <StackLayout Orientation="Horizontal" Spacing="25" Margin="0,10">
             <Label Text="Image" WidthRequest="50" Style="{StaticResource TertiaryText}" />
             <Button Text="Select an Image" Command="{Binding SelectImageCommand}" Style="{StaticResource TertiaryContainer}" WidthRequest="300" />
@@ -36,7 +36,7 @@
         </CollectionView>
         <StackLayout Orientation="Horizontal" Spacing="25" Margin="0,10">
             <Label Text="Status" WidthRequest="50" Style="{StaticResource TertiaryText}" />
-            <Picker ItemsSource="{Binding Statuses}" SelectedIndex="{Binding Status, Converter={StaticResource EnumIntConverter}}" Style="{StaticResource TertiaryContainer}" WidthRequest="300" />
+            <Picker ItemsSource="{x:Static viewmodels:EditItemViewModel.Statuses}" SelectedIndex="{Binding Status, Converter={StaticResource EnumIntConverter}}" Style="{StaticResource TertiaryContainer}" WidthRequest="300" />
         </StackLayout>
         <Button Text="Save" Command="{Binding SaveItemCommand}" Style="{StaticResource TertiaryContainer}" />
     </VerticalStackLayout>
