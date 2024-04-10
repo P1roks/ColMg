@@ -20,5 +20,17 @@ namespace ColMg.Utils
             @"(\p{Ll})(\P{Ll})",
             "$1 $2");
         }
+
+        public static string Capitalize(this string str)
+        {
+            switch(str)
+            {
+                case null:
+                case "":
+                    return str;
+                default:
+                    return string.Concat(str[0].ToString().ToUpper(), str.AsSpan(1));
+            }
+        }
     }
 }

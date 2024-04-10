@@ -29,6 +29,8 @@ namespace ColMg.ViewModels
                 {
                     if(image.FileName.EndsWith("jpg", StringComparison.OrdinalIgnoreCase) ||
                        image.FileName.EndsWith("png", StringComparison.OrdinalIgnoreCase) || 
+                       image.FileName.EndsWith("jpeg", StringComparison.OrdinalIgnoreCase) || 
+                       image.FileName.EndsWith("bmp", StringComparison.OrdinalIgnoreCase) || 
                        image.FileName.EndsWith("gif", StringComparison.OrdinalIgnoreCase))
                     {
                         imagePath = CollectionRepository.ImportImage(image.FullPath);

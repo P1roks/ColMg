@@ -1,4 +1,5 @@
 ﻿using ColMg.Models;
+using ColMg.Utils;
 using ColMg.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -28,7 +29,7 @@ namespace ColMg.ViewModels
         [RelayCommand]
         private async Task AddColumn()
         {
-            string columnName = await Shell.Current.DisplayPromptAsync("Add Column", "Enter column name");
+            string columnName = (await Shell.Current.DisplayPromptAsync("Add Column", "Enter column name")).Capitalize();
             if (columnName == null) return;
 
             Collection.AddColumn(columnName);

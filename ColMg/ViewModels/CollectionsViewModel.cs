@@ -1,4 +1,5 @@
-﻿using ColMg.Views;
+﻿using ColMg.Utils;
+using ColMg.Views;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -41,8 +42,12 @@ namespace ColMg.ViewModels
         [RelayCommand]
         private async Task AddCollection()
         {
-            string collectionName = await Shell.Current.DisplayPromptAsync("Add Collection", "Enter new collection name: ");
-            if (!string.IsNullOrWhiteSpace(collectionName) &&
+            string collectionName = (await Shell.Current.DisplayPromptAsync("Add Collection", "Enter new collection name: ")).Capitalize();
+            if(CollectionRepository.CollectionExists(collectionName))
+            {
+                await Shell.Current.DisplayAlert("Duplicate name", "Collection with this name already exits!", "OK");
+            }
+            else if (!string.IsNullOrWhiteSpace(collectionName) &&
                collectionName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 &&
                !CollectionRepository.CollectionExists(collectionName))
             {
